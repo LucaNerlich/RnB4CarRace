@@ -11,16 +11,27 @@
 <?import javafx.scene.control.Label?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.View.GuiController">
+<AnchorPane fx:id="getAnchorPane" maxHeight="600.0" maxWidth="800.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CarRace.Controller.View.GuiController">
    <children>
-      <TextFlow fx:id="getConsoleOutputTextFlow" layoutX="14.0" layoutY="14.0" prefHeight="216.0" prefWidth="771.0" />
       <TextField fx:id="getConsoleInputTextField" layoutX="400.0" layoutY="479.0" prefHeight="58.0" prefWidth="396.0" />
       <Button fx:id="sendConsoleInputButton" layoutX="546.0" layoutY="537.0" mnemonicParsing="false" onAction="#onSendConsoleInputButton" prefHeight="25.0" prefWidth="102.0" text="Send" />
-      <Label fx:id="displayCommandsLabel" layoutX="14.0" layoutY="569.0" prefHeight="17.0" prefWidth="63.0" text="Connected" />
+      <Label fx:id="connectedLabel" layoutX="14.0" layoutY="569.0" prefHeight="17.0" prefWidth="63.0" text="Connected" />
       <Button fx:id="addCarButton" layoutX="243.0" layoutY="537.0" mnemonicParsing="false" onAction="#onAddCarButton" text="Add Car" />
       <TextField fx:id="getNameTextField" layoutX="154.0" layoutY="481.0" prefHeight="25.0" prefWidth="237.0" />
       <TextField fx:id="getGetschwindigkeitTextField" layoutX="154.0" layoutY="511.0" prefHeight="25.0" prefWidth="237.0" />
       <Label fx:id="nameLabel" layoutX="56.0" layoutY="485.0" text="Name" />
       <Label fx:id="geschwindigkeitLabel" layoutX="56.0" layoutY="515.0" text="Geschwindigkeit" />
+      <TextField fx:id="getIpTextField" layoutX="154.0" layoutY="367.0" prefHeight="25.0" prefWidth="237.0" />
+      <TextField fx:id="getPortTextField" layoutX="154.0" layoutY="398.0" prefHeight="25.0" prefWidth="237.0" />
+      <Label fx:id="ipLabel" layoutX="120.0" layoutY="371.0" text="IP" />
+      <Label fx:id="portLabel" layoutX="114.0" layoutY="402.0" text="Port" />
+      <Button fx:id="loginButton" layoutX="154.0" layoutY="434.0" mnemonicParsing="false" onAction="#onLoginButton" text="Log In" />
+      <Button fx:id="useDefaultButton" layoutX="221.0" layoutY="434.0" mnemonicParsing="false" onAction="#onUseDefaultButton" text="Use Default" />
+      <Label layoutX="408.0" layoutY="371.0" text="Commands:" />
+      <Label layoutX="492.0" layoutY="371.0" text="/HELP" />
+      <Label layoutX="494.0" layoutY="394.0" text="/INFO" />
+      <Label layoutX="494.0" layoutY="415.0" text="/START" />
+      <Label layoutX="494.0" layoutY="438.0" text="/EXIT" />
+      <TextArea fx:id="getDisplayConsoleTextArea" layoutX="9.0" layoutY="14.0" prefHeight="200.0" prefWidth="783.0" />
    </children>
 </AnchorPane>
