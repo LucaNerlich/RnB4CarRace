@@ -36,7 +36,8 @@ public class RaceHandler {
         printWriter.flush();
     }
 
-    public void registerCars(){
+    public boolean registerCars(){
+        boolean added = false;
         String message;
         StringBuilder sb = new StringBuilder();
         sb.append("/REGCARS");
@@ -51,12 +52,14 @@ public class RaceHandler {
             System.out.println(message);
             try {
                 schreibeNachricht(message);
+                added = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }else{
             System.err.println("Keine Race Cars eingetragen!");
         }
+        return added;
     }
 
     public void addRaceCar(RaceCar raceCar){

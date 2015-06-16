@@ -3,6 +3,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -31,16 +33,34 @@ public class NetworkHandler implements Runnable {
          Dem Handler werden als Parameter uebergeben:
          der ServerSocket und der Socket des anfordernden Clients.
         */
-                Socket cs = serverSocket.accept();  //warten auf Client-Anforderung
 
-                //list of clients to send messages to
-                clients.add(new PrintWriter(cs.getOutputStream(), true));
+                Timer t = new Timer();
+                t.schedule(new TimerTask() {
 
-                //starte den Handler-Thread zur Realisierung der Client-Anforderung
-                pool.execute(new ClientHandler(serverSocket, cs));
+                    //run for 30 seconds
+                    @Override
+                    public void run() {                   //timer
+                        Socket cs = null;  //warten auf Client-Anforderung
+                        try {
+                            cs = serverSocket.accept();
+
+                            //list of clients to send messages to
+                            clients.add(new PrintWriter(cs.getOutputStream(), true));
+
+                            //starte den Handler-Thread zur Realisierung der Client-Anforderung
+                            ClientHandler client = new ClientHandler(serverSocket, cs, clients);
+                            RaceCalculator.addClientHandler(client);
+                            pool.execute(client);
+                        } catch (IOException e) {
+                            System.out.println("--- Interrupt NetworkService-run");
+                        }
+                    }
+                }, 30000L);
+
+                //execute race:
+
+                //todo let raceCalculator calculate race
             }
-        } catch (IOException ex) {
-            System.out.println("--- Interrupt NetworkService-run");
         } finally {
             System.out.println("--- Ende NetworkService(pool.shutdown)");
             pool.shutdown();  //keine Annahme von neuen Anforderungen

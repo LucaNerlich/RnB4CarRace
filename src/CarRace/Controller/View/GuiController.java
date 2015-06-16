@@ -74,7 +74,10 @@ public class GuiController implements Initializable {
 
                 try {
                     if (consoleInput.equals("/REGCARS")) {
-                        raceHandler.registerCars();
+                        //sende autos, wenn keine existieren -> fehlermeldung
+                        if(!raceHandler.registerCars()){
+                            getDisplayConsoleTextArea.appendText("\n Error - No Race Cars added!");
+                        }
                     } else {
                         raceHandler.schreibeNachricht(consoleInput);
                     }

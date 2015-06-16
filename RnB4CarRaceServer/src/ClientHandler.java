@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Created by Luca Nerlich on 15.06.2015.
@@ -14,38 +15,17 @@ public class ClientHandler implements Runnable {
     private final Socket client;
     private final ServerSocket serverSocket;
     private static int clientId;
+    private static ArrayList<PrintWriter> clients;
 
-    ClientHandler(ServerSocket serverSocket, Socket client) { //Server/Client-Socket
+    ClientHandler(ServerSocket serverSocket, Socket client, ArrayList<PrintWriter> clients) { //Server/Client-Socket
         this.client = client;
         this.serverSocket = serverSocket;
         clientId++;
+        this.clients = clients;
     }
 
     @Override
     public void run() {
-        /*
-        try {
-
-            PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-
-            String inputLine;
-            String outputLine;
-
-            // Initiate conversation with client
-            RaceProtocol rP = new RaceProtocol();
-            outputLine = rP.processInput(null);
-            out.println(outputLine);
-
-
-            //todo client input verwalten.
-            while ((inputLine = in.readLine()) != null) {
-                outputLine = rP.processInput(inputLine);
-                out.println(outputLine);
-                if (outputLine.equals("/EXIT"))
-                    break;
-            }
-*/
         // Iterator<DataOutputStream> it = NetworkHandler.getClients().iterator();
 
         StringBuffer sb = new StringBuffer();
@@ -62,22 +42,14 @@ public class ClientHandler implements Runnable {
                 char[] buffer = new char[100];
                 int anzahlZeichen = bufferedReader.read(buffer, 0, 100); // blockiert bis Nachricht empfangen
                 String nachricht = new String(buffer, 0, anzahlZeichen);
-                String[] werte = nachricht.split("\\s");
-                System.out.println("Client_ID_'" + clientId + "'_" + client.getInetAddress() +  ":" + client.getLocalPort() + " _ " + nachricht);
+                //nachricht.split("\\s");
+                System.out.println("Client_ID_'" + clientId + "'_" + client.getInetAddress() + ":" + client.getLocalPort() + " _ " + nachricht);
 
-                //todo verarbeitung per raceprotocoll
                 String answer = RaceProtocol.getInstance().processInput(nachricht);
                 out.println("Server " + serverSocket.getInetAddress() + ":" + serverSocket.getLocalPort() + " _ " + answer);  //R�ckgabe Ergebnis an den Client
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } /* finally {
-            if (client != null)
-                try {
-                    client.close();
-                } catch (IOException e) {
-                }
-        } */
-
+        }
     }
 }

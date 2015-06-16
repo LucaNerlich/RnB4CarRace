@@ -21,6 +21,8 @@ public class RaceProtocol {
         return RaceProtocol.instance;
     }
 
+    //messages werden immer mit bei nem '-' getrennt und verarbeitet.
+    //deswegen muessen alle eingehenden strings zwingend bei mehr als einem Wort mit '-' getrennt werden.
     public String processInput(String theInput) {
         String theOutput = null;
         String carNames;
@@ -38,6 +40,9 @@ public class RaceProtocol {
             }else if (inputParts[0].equals("/REGCARS")) {
                 for(int i = 1; i < inputParts.length; i++){
                     sb.append(inputParts[i]);
+
+                    //add Car to Race
+                    RaceCalculator.addCar(inputParts[i]);
                     sb.append(", ");
                 }
                 carNames = sb.toString();
@@ -49,9 +54,5 @@ public class RaceProtocol {
             }
         }
         return theOutput;
-    }
-
-    private void extractCars(String[] raceCars){
-
     }
 }
