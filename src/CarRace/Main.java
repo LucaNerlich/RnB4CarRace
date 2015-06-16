@@ -13,9 +13,9 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("raceGui.fxml"));
         primaryStage.setTitle("RnB4 Car Race");
         primaryStage.setScene(new Scene(root, 1200, 1024));
+        primaryStage.setResizable(true);
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);

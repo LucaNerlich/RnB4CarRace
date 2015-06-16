@@ -18,6 +18,6 @@ public class GuiController implements Initializable {
     }
 
     private void initializeUiHelper() {
-        UiHelper.setdisplayCommandsLabel(displayCommandsLabel);
+       // UiHelper.setdisplayCommandsLabel(displayCommandsLabel);
     }
 }
