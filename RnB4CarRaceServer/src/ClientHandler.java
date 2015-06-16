@@ -13,10 +13,12 @@ public class ClientHandler implements Runnable {
 
     private final Socket client;
     private final ServerSocket serverSocket;
+    private static int clientId;
 
     ClientHandler(ServerSocket serverSocket, Socket client) { //Server/Client-Socket
         this.client = client;
         this.serverSocket = serverSocket;
+        clientId++;
     }
 
     @Override
@@ -61,10 +63,11 @@ public class ClientHandler implements Runnable {
                 int anzahlZeichen = bufferedReader.read(buffer, 0, 100); // blockiert bis Nachricht empfangen
                 String nachricht = new String(buffer, 0, anzahlZeichen);
                 String[] werte = nachricht.split("\\s");
-                System.out.println("Client " + client.getInetAddress() +  ":" + client.getLocalPort() + " _ " + nachricht);
+                System.out.println("Client_ID_'" + clientId + "'_" + client.getInetAddress() +  ":" + client.getLocalPort() + " _ " + nachricht);
 
                 //todo verarbeitung per raceprotocoll
-                out.println("Server " + serverSocket.getInetAddress() + ":" + serverSocket.getLocalPort() + " _ " + nachricht);  //R�ckgabe Ergebnis an den Client
+                String answer = RaceProtocol.getInstance().processInput(nachricht);
+                out.println("Server " + serverSocket.getInetAddress() + ":" + serverSocket.getLocalPort() + " _ " + answer);  //R�ckgabe Ergebnis an den Client
             }
         } catch (IOException e) {
             e.printStackTrace();

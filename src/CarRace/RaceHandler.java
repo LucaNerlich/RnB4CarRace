@@ -2,11 +2,13 @@ package CarRace;
 
 import CarRace.Controller.Connection.Listener;
 import CarRace.Controller.View.GuiController;
+import CarRace.Model.RaceCar;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,6 +19,8 @@ public class RaceHandler {
 
     private Socket socket;
     private Listener listener;
+
+    private ArrayList<RaceCar> raceCars = new ArrayList<>();
 
     public RaceHandler(Socket socket, Listener listener) {
         this.socket = socket;
@@ -30,5 +34,34 @@ public class RaceHandler {
                                 socket.getOutputStream()));
         printWriter.print(nachricht);
         printWriter.flush();
+    }
+
+    public void registerCars(){
+        String message;
+        StringBuilder sb = new StringBuilder();
+        sb.append("/REGCARS");
+        sb.append("-");
+        if(raceCars.size() > 0) {
+            for (RaceCar raceCar : raceCars) {
+                sb.append(raceCar.getName());
+                sb.append("-");
+            }
+
+            message = sb.toString();
+            System.out.println(message);
+            try {
+                schreibeNachricht(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            System.err.println("Keine Race Cars eingetragen!");
+        }
+    }
+
+    public void addRaceCar(RaceCar raceCar){
+        if(raceCar != null){
+        raceCars.add(raceCar);
+        }
     }
 }

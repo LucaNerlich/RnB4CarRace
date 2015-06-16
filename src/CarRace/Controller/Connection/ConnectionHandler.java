@@ -16,6 +16,7 @@ public class ConnectionHandler {
         //
     }
 
+    //singleton
     public synchronized static ConnectionHandler getInstance() {
         if (instance == null) {
             ConnectionHandler.instance = new ConnectionHandler();

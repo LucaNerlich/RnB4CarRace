@@ -2,6 +2,7 @@ package CarRace.Controller.View;
 
 import CarRace.Controller.Connection.ConnectionHandler;
 import CarRace.Controller.Connection.Listener;
+import CarRace.Model.RaceCar;
 import CarRace.RaceHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -72,7 +73,11 @@ public class GuiController implements Initializable {
             if (consoleInput.length() > 0) {
 
                 try {
-                    raceHandler.schreibeNachricht(consoleInput);
+                    if (consoleInput.equals("/REGCARS")) {
+                        raceHandler.registerCars();
+                    } else {
+                        raceHandler.schreibeNachricht(consoleInput);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -97,6 +102,10 @@ public class GuiController implements Initializable {
 
                 getDisplayConsoleTextArea.appendText("\n Connection Successful on: " + ip + ":" + port);
                 connectedLabel.setVisible(true);
+
+                //prevent multiple socket connections from one client - ghetto way
+                getLoginButton().setDisable(true);
+                getLoginButton().setVisible(false);
             } catch (IOException e) {
                 getDisplayConsoleTextArea.appendText("\n Error while connection to socket!");
             }
@@ -111,7 +120,14 @@ public class GuiController implements Initializable {
 
     @FXML
     public void onAddCarButton() {
-
+        String name = getGetNameTextField().getText();
+        if (name.length() > 0) {
+            raceHandler.addRaceCar(new RaceCar(name));
+            getNameTextField.clear();
+            getDisplayConsoleTextArea.appendText("\n Success - Car: " + name + "  added.");
+        } else {
+            getDisplayConsoleTextArea.appendText("\n Error - No car name specified.");
+        }
     }
 
     private void initializeUiHelper() {
