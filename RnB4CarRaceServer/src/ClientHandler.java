@@ -61,8 +61,10 @@ public class ClientHandler implements Runnable {
                 int anzahlZeichen = bufferedReader.read(buffer, 0, 100); // blockiert bis Nachricht empfangen
                 String nachricht = new String(buffer, 0, anzahlZeichen);
                 String[] werte = nachricht.split("\\s");
-                System.out.println("Nachricht vom Client:_" + nachricht);
-                out.println("Antwort vom Server");  //R�ckgabe Ergebnis an den Client
+                System.out.println("Client " + client.getInetAddress() +  ":" + client.getLocalPort() + " _ " + nachricht);
+
+                //todo verarbeitung per raceprotocoll
+                out.println("Server " + serverSocket.getInetAddress() + ":" + serverSocket.getLocalPort() + " _ " + nachricht);  //R�ckgabe Ergebnis an den Client
             }
         } catch (IOException e) {
             e.printStackTrace();

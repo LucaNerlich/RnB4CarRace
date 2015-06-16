@@ -10,7 +10,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<AnchorPane fx:id="getAnchorPane" maxHeight="600.0" maxWidth="800.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CarRace.Controller.View.GuiController">
+<AnchorPane fx:id="getAnchorPane" maxHeight="600.0" maxWidth="800.0" minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CarRace.Controller.View.GuiController">
    <children>
       <TextField fx:id="getConsoleInputTextField" layoutX="400.0" layoutY="479.0" prefHeight="58.0" prefWidth="396.0" />
       <Button fx:id="sendConsoleInputButton" layoutX="546.0" layoutY="537.0" mnemonicParsing="false" onAction="#onSendConsoleInputButton" prefHeight="25.0" prefWidth="102.0" text="Send" />

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 
 /**
  * Created by lnerlich on 16.06.2015.
@@ -29,13 +30,12 @@ public class Listener implements Runnable {
 
 
             while(true){
-                //get message from server
-                //System.out.println("echo: " + in.readLine());
+                //get message from server and print to Text Area
                 guiController.getGetDisplayConsoleTextArea().appendText("\n" + in.readLine());
             }
 
         } catch (IOException e) {
-            guiController.getGetDisplayConsoleTextArea().appendText("\n" + e.getStackTrace());
+            guiController.getGetDisplayConsoleTextArea().appendText("\n" + Arrays.toString(e.getStackTrace()));
         }
     }
 }

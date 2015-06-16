@@ -13,7 +13,7 @@ import java.util.Observer;
 /**
  * Created by lnerlich on 16.06.2015.
  */
-public class RaceHandler implements Observer {
+public class RaceHandler {
 
     private Socket socket;
     private Listener listener;
@@ -30,17 +30,5 @@ public class RaceHandler implements Observer {
                                 socket.getOutputStream()));
         printWriter.print(nachricht);
         printWriter.flush();
-    }
-
-    @Override
-    public void update(Observable o, Object messageString) {
-        if (o instanceof GuiController) {
-            try {
-                schreibeNachricht((String) messageString);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 }

@@ -10,9 +10,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../CarRace/raceGui.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/raceGui.fxml"));
         primaryStage.setTitle("RnB4 Car Race");
-        primaryStage.setScene(new Scene(root, 1200, 1024));
+        primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(true);
         primaryStage.show();
     }

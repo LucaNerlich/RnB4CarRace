@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
-public class GuiController extends Observable implements Initializable {
+public class GuiController implements Initializable {
 
     @FXML
     private AnchorPane getAnchorPane;
@@ -70,8 +70,6 @@ public class GuiController extends Observable implements Initializable {
             String consoleInput = getConsoleInputTextField.getText();
             getConsoleInputTextField.clear();
             if (consoleInput.length() > 0) {
-                //setChanged();
-                //notifyObservers(consoleInput);
 
                 try {
                     raceHandler.schreibeNachricht(consoleInput);

@@ -10,9 +10,9 @@ public class RaceProtocol {
 
     public String processInput(String theInput) {
         String theOutput = null;
-        if (theInput != null) {
+        if (theInput.length() > 0) {
             if (theInput.equals("/HELP")) {
-                theOutput = "Commands: '/HELP', '/INFO', '/EXIT'" + theInput;
+                theOutput = "Commands: '/HELP', '/INFO', '/EXIT'";
             } else if (theInput.equals("/INFO")) {
                 theOutput = "Server: INFO ";
             } else if (theInput.equals("/START")) {
