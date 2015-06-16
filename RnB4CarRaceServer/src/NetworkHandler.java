@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -33,6 +35,8 @@ public class NetworkHandler implements Runnable {
          Dem Handler werden als Parameter uebergeben:
          der ServerSocket und der Socket des anfordernden Clients.
         */
+                
+
 
                 Timer t = new Timer();
                 t.schedule(new TimerTask() {
@@ -59,7 +63,21 @@ public class NetworkHandler implements Runnable {
 
                 //execute race:
 
-                //todo let raceCalculator calculate race
+                RaceCar winner = RaceCalculator.calculateRace();
+                PrintWriter out;
+
+                //send winner to all clients
+                for(int i = 0; i < clients.size(); i++){
+                    out = clients.get(i);
+                    out.println("The Winner is: " + winner.getName() + " with a time of: " + winner.getTimeFinished());
+                }
+
+                //atm wird das rennen nur einmal ausgefuehrt.
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         } finally {
             System.out.println("--- Ende NetworkService(pool.shutdown)");

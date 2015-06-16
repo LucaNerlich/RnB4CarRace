@@ -16,6 +16,7 @@ public class ClientHandler implements Runnable {
     private final ServerSocket serverSocket;
     private static int clientId;
     private static ArrayList<PrintWriter> clients;
+    BufferedReader bufferedReader;
 
     ClientHandler(ServerSocket serverSocket, Socket client, ArrayList<PrintWriter> clients) { //Server/Client-Socket
         this.client = client;
@@ -35,7 +36,8 @@ public class ClientHandler implements Runnable {
             while (true) {
                 // read and service request on client
                 out = new PrintWriter(client.getOutputStream(), true);
-                BufferedReader bufferedReader =
+
+                bufferedReader =
                         new BufferedReader(
                                 new InputStreamReader(
                                         client.getInputStream()));
