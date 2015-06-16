@@ -11,34 +11,16 @@
 <?import javafx.scene.control.Label?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <TextFlow prefHeight="187.0" prefWidth="800.0" />
-         </children>
-      </VBox>
-   </center>
-   <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <TextField>
-               <padding>
-                  <Insets bottom="50.0" />
-               </padding>
-               <HBox.margin>
-                  <Insets left="600.0" />
-               </HBox.margin>
-            </TextField>
-            <Button mnemonicParsing="false" text="Button">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Button>
-         </children>
-      </HBox>
-   </bottom>
-   <right>
-      <Label text="Label" BorderPane.alignment="CENTER" />
-   </right>
-</BorderPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.View.GuiController">
+   <children>
+      <TextFlow fx:id="getConsoleOutputTextFlow" layoutX="14.0" layoutY="14.0" prefHeight="216.0" prefWidth="771.0" />
+      <TextField fx:id="getConsoleInputTextField" layoutX="400.0" layoutY="479.0" prefHeight="58.0" prefWidth="396.0" />
+      <Button fx:id="sendConsoleInputButton" layoutX="546.0" layoutY="537.0" mnemonicParsing="false" onAction="#onSendConsoleInputButton" prefHeight="25.0" prefWidth="102.0" text="Send" />
+      <Label fx:id="displayCommandsLabel" layoutX="14.0" layoutY="569.0" prefHeight="17.0" prefWidth="63.0" text="Connected" />
+      <Button fx:id="addCarButton" layoutX="243.0" layoutY="537.0" mnemonicParsing="false" onAction="#onAddCarButton" text="Add Car" />
+      <TextField fx:id="getNameTextField" layoutX="154.0" layoutY="481.0" prefHeight="25.0" prefWidth="237.0" />
+      <TextField fx:id="getGetschwindigkeitTextField" layoutX="154.0" layoutY="511.0" prefHeight="25.0" prefWidth="237.0" />
+      <Label fx:id="nameLabel" layoutX="56.0" layoutY="485.0" text="Name" />
+      <Label fx:id="geschwindigkeitLabel" layoutX="56.0" layoutY="515.0" text="Geschwindigkeit" />
+   </children>
+</AnchorPane>

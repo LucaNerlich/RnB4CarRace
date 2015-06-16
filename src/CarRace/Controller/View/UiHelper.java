@@ -1,4 +1,4 @@
-package CarRace.View;
+package CarRace.Controller.View;
 
 import javafx.scene.control.Label;
 
