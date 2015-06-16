@@ -123,6 +123,7 @@ public class GuiController implements Initializable {
 
     @FXML
     public void onAddCarButton() {
+        //todo falsche Namen abfangen, zb wenn space dazwischen
         String name = getGetNameTextField().getText();
         if (name.length() > 0) {
             raceHandler.addRaceCar(new RaceCar(name));

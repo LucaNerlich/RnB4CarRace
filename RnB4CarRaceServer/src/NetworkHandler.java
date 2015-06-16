@@ -70,6 +70,7 @@ public class NetworkHandler implements Runnable {
                 for(int i = 0; i < clients.size(); i++){
                     out = clients.get(i);
                     out.println("The Winner is: " + winner.getName() + " with a time of: " + winner.getTimeFinished());
+                    break;
                 }
 
                 //atm wird das rennen nur einmal ausgefuehrt.
