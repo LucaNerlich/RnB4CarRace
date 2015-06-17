@@ -27,11 +27,36 @@
       <Button fx:id="loginButton" layoutX="154.0" layoutY="434.0" mnemonicParsing="false" onAction="#onLoginButton" text="Log In" />
       <Button fx:id="useDefaultButton" layoutX="221.0" layoutY="434.0" mnemonicParsing="false" onAction="#onUseDefaultButton" text="Use Default" />
       <Label layoutX="408.0" layoutY="370.0" text="Commands:" />
-      <Label layoutX="492.0" layoutY="370.0" text="/HELP" />
-      <Label layoutX="492.0" layoutY="385.0" text="/INFO" />
-      <Label layoutX="492.0" layoutY="400.0" text="/START" />
-      <Label layoutX="492.0" layoutY="430.0" text="/EXIT" />
+      <Label layoutX="485.0" layoutY="370.0" text="/HELP" />
+      <Label layoutX="485.0" layoutY="390.0" text="/INFO" />
+      <Label layoutX="485.0" layoutY="410.0" text="/START" />
+      <Label layoutX="485.0" layoutY="450.0" text="/EXIT" />
       <TextArea fx:id="getDisplayConsoleTextArea" layoutX="9.0" layoutY="14.0" prefHeight="200.0" prefWidth="783.0" />
-      <Label layoutX="492.0" layoutY="415.0" text="/REGCARS" />
+      <Label layoutX="485.0" layoutY="430.0" text="/REGCARS" />
+      <Button fx:id="startButton" graphicTextGap="2.0" layoutX="550.0" layoutY="410.0" mnemonicParsing="false" onAction="#onStartInputButton" prefHeight="15.0" prefWidth="50.0" text="/START" textAlignment="CENTER">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Button>
+      <Button fx:id="infoButton" graphicTextGap="2.0" layoutX="550.0" layoutY="390.0" mnemonicParsing="false" onAction="#onInfoInputButton" prefHeight="15.0" prefWidth="50.0" text="/INFO" textAlignment="CENTER">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Button>
+      <Button fx:id="helpButton" graphicTextGap="2.0" layoutX="550.0" layoutY="370.0" mnemonicParsing="false" onAction="#onHelpInputButton" prefHeight="15.0" prefWidth="50.0" text="/HELP" textAlignment="CENTER">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Button>
+      <Button fx:id="regcarsButton" graphicTextGap="2.0" layoutX="550.0" layoutY="430.0" mnemonicParsing="false" onAction="#onRegCarsButton" prefHeight="15.0" prefWidth="50.0" text="/REGCARS" textAlignment="CENTER">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Button>
+      <Button fx:id="exitButton" graphicTextGap="2.0" layoutX="550.0" layoutY="450.0" mnemonicParsing="false" onAction="#onExitButton" prefHeight="15.0" prefWidth="50.0" text="/EXIT" textAlignment="CENTER">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

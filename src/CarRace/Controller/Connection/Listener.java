@@ -33,6 +33,8 @@ public class Listener implements Runnable {
             while(true){
                 //get message from server and print to Text Area
                 guiController.getGetDisplayConsoleTextArea().appendText("\n" + in.readLine());
+                guiController.getRegcarsButton().setDisable(false);
+                guiController.getAddCarButton().setDisable(false);
             }
 
         } catch (IOException e) {

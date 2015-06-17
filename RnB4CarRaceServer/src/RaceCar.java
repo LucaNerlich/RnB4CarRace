@@ -6,13 +6,13 @@
 public class RaceCar {
 
     private String name;
-    private long timeFinished;
+    private int timeFinished;
 
     public RaceCar() {
         //
     }
 
-    public RaceCar(String name, long timeFinished) {
+    public RaceCar(String name, int timeFinished) {
         this.name = name;
         this.timeFinished = timeFinished;
     }
@@ -29,7 +29,7 @@ public class RaceCar {
         return timeFinished;
     }
 
-    public void setTimeFinished(long timeFinished) {
+    public void setTimeFinished(int timeFinished) {
         this.timeFinished = timeFinished;
     }
 }

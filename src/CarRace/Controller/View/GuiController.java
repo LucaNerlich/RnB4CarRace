@@ -17,6 +17,7 @@ import javafx.scene.text.TextFlow;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
@@ -57,6 +58,16 @@ public class GuiController implements Initializable {
     private Button loginButton;
     @FXML
     private Button useDefaultButton;
+    @FXML
+    private Button helpButton;
+    @FXML
+    private Button infoButton;
+    @FXML
+    private Button startButton;
+    @FXML
+    private Button regcarsButton;
+    @FXML
+    private Button exitButton;
 
     RaceHandler raceHandler;
     Socket socket;
@@ -78,14 +89,14 @@ public class GuiController implements Initializable {
                 try {
                     if (consoleInput.equals("/REGCARS")) {
                         //sende autos, wenn keine existieren -> fehlermeldung
-                        if(!raceHandler.registerCars()){
+                        if (!raceHandler.registerCars()) {
                             getDisplayConsoleTextArea.appendText("\n Error - No Race Cars added!");
                         }
                     } else {
                         raceHandler.schreibeNachricht(consoleInput);
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    getDisplayConsoleTextArea.appendText("\n" + Arrays.toString(e.getStackTrace()));
                 }
             }
         }
@@ -135,6 +146,38 @@ public class GuiController implements Initializable {
         } else {
             getDisplayConsoleTextArea.appendText("\n Error - No car name specified.");
         }
+    }
+
+    @FXML
+    public void onHelpInputButton() {
+
+    }
+
+    @FXML
+    public void onInfoInputButton() {
+
+    }
+
+    @FXML
+    public void onStartInputButton() {
+
+    }
+
+    @FXML
+    public void onRegCarsButton() {
+        //sende autos, wenn keine existieren -> fehlermeldung
+        if (!raceHandler.registerCars()) {
+            getDisplayConsoleTextArea.appendText("\n Error - No Race Cars added!");
+        } else {
+            getDisplayConsoleTextArea.appendText("\n Success - Cars sent to Server!");
+        }
+        getRegcarsButton().setDisable(true);
+        getAddCarButton().setDisable(true);
+    }
+
+    @FXML
+    public void onExitButton() {
+
     }
 
     private void initializeUiHelper() {
@@ -219,5 +262,25 @@ public class GuiController implements Initializable {
 
     public Thread getListenerThread() {
         return listenerThread;
+    }
+
+    public Button getHelpButton() {
+        return helpButton;
+    }
+
+    public Button getInfoButton() {
+        return infoButton;
+    }
+
+    public Button getStartButton() {
+        return startButton;
+    }
+
+    public Button getRegcarsButton() {
+        return regcarsButton;
+    }
+
+    public Button getExitButton() {
+        return exitButton;
     }
 }

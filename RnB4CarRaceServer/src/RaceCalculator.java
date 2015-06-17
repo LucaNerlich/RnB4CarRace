@@ -40,13 +40,14 @@ public class RaceCalculator {
         if (carNames.size() > 0) {
             for (String carName : carNames) {
                 Random random = new Random();
-                Long racetime = random.nextLong();
+                int racetime = random.nextInt();
 
                 //alle zeiten muessen > 0 sein.
                 if (racetime < 0) {
-                    racetime = (racetime * -1) / 1000;
+                    racetime = (racetime * -1);
                 }
                 RaceCar raceCar = new RaceCar(carName, racetime);
+                System.out.println(racetime);
                 raceCars.add(raceCar);
             }
         }

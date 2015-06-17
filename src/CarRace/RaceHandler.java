@@ -33,7 +33,7 @@ public class RaceHandler {
      * @param nachricht -> String der an den Server uebermittelt wird.
      * @throws IOException
      */
-    private void schreibeNachricht(String nachricht) throws IOException {
+    public void schreibeNachricht(String nachricht) throws IOException {
         PrintWriter printWriter =
                 new PrintWriter(
                         new OutputStreamWriter(
