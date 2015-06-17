@@ -32,22 +32,22 @@ public class RaceCalculator {
         int amountOfCompetitors = carNames.size();
 
         //generate a Time for each Car
-        for (String carName : carNames) {
-            Random random = new Random();
-            Long racetime = random.nextLong();
+        if (carNames.size() > 0) {
+            for (String carName : carNames) {
+                Random random = new Random();
+                Long racetime = random.nextLong();
 
-            //alle zeiten muessen > 0 sein.
-            if(racetime < 0){
-                racetime = (racetime * -1);
+                //alle zeiten muessen > 0 sein.
+                if (racetime < 0) {
+                    racetime = (racetime * -1) / 1000;
+                }
+                RaceCar raceCar = new RaceCar(carName, racetime);
+                raceCars.add(raceCar);
             }
-            RaceCar raceCar = new RaceCar(carName, racetime);
-            raceCars.add(raceCar);
         }
 
         //calculate Winner from Cars
-
         if (raceCars.size() > 0) {
-
             String currentWinnerName = raceCars.get(0).getName();
             long currentWinnerTime = raceCars.get(0).getTimeFinished();
 
@@ -58,7 +58,6 @@ public class RaceCalculator {
                     winner = raceCar;
                 }
             }
-
         }
         return winner;
     }

@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,6 +15,7 @@ public class NetworkHandler implements Runnable {
     private final ServerSocket serverSocket;
     private final ExecutorService pool;
     private static ArrayList<PrintWriter> clients;
+    static Timer timer = new Timer(true); // set daemon
 
     public NetworkHandler(ExecutorService pool,
                           ServerSocket serverSocket) {
@@ -35,17 +34,29 @@ public class NetworkHandler implements Runnable {
          Dem Handler werden als Parameter uebergeben:
          der ServerSocket und der Socket des anfordernden Clients.
         */
-                
 
+                System.out.println("Starting Timer, accepting clients");
+                timer.schedule(new RaceTimer(Thread.currentThread(), serverSocket, pool, clients), 30000);
+                try {
+                    System.out.println("vor sleep 1");
+                    Thread.sleep(40000);
+                    System.out.println("nach sleep 1");
+                } catch (InterruptedException e) {
+                    //atm wird das rennen nur einmal ausgefuehrt.
+                    e.printStackTrace();
+                }
+                                  /*
 
                 Timer t = new Timer();
                 t.schedule(new TimerTask() {
 
                     //run for 30 seconds
                     @Override
-                    public void run() {                   //timer
+                    public void run() {
+                                     //timer
                         Socket cs = null;  //warten auf Client-Anforderung
                         try {
+                            System.out.println("Accepting Clients...");
                             cs = serverSocket.accept();
 
                             //list of clients to send messages to
@@ -55,28 +66,41 @@ public class NetworkHandler implements Runnable {
                             ClientHandler client = new ClientHandler(serverSocket, cs, clients);
                             RaceCalculator.addClientHandler(client);
                             pool.execute(client);
+                            System.out.println("Client_" + ClientHandler.getClientId() + " added");
                         } catch (IOException e) {
                             System.out.println("--- Interrupt NetworkService-run");
                         }
                     }
                 }, 30000L);
 
+                        */
                 //execute race:
 
+                System.out.println("Calculating Race and Winner... Please stand by.");
                 RaceCar winner = RaceCalculator.calculateRace();
                 PrintWriter out;
 
                 //send winner to all clients
-                for(int i = 0; i < clients.size(); i++){
-                    out = clients.get(i);
-                    out.println("The Winner is: " + winner.getName() + " with a time of: " + winner.getTimeFinished());
-                    break;
+                if (winner != null) {
+                    for (int i = 0; i < clients.size(); i++) {
+                        out = clients.get(i);
+                        out.println("The Winner is: " + winner.getName() + " with a time of: " + winner.getTimeFinished());
+                        System.out.println("Winner: " + winner.getName());
+                    }
+                } else {
+                    for (int i = 0; i < clients.size(); i++) {
+                        out = clients.get(i);
+                        out.println("Es nahmen keine Autos am Rennen teil.");
+                        System.out.println("Error, keine Autos.");
+                    }
                 }
-
-                //atm wird das rennen nur einmal ausgefuehrt.
                 try {
-                    Thread.sleep(60000);
+                    System.out.println("vor sleep 2");
+                    Thread.sleep(5000);
+                    System.out.println("nach sleep, vor break 2");
+                    break;
                 } catch (InterruptedException e) {
+                    //atm wird das rennen nur einmal ausgefuehrt.
                     e.printStackTrace();
                 }
             }
@@ -98,5 +122,17 @@ public class NetworkHandler implements Runnable {
 
     public static ArrayList<PrintWriter> getClients() {
         return clients;
+    }
+
+    public ServerSocket getServerSocket() {
+        return serverSocket;
+    }
+
+    public ExecutorService getPool() {
+        return pool;
+    }
+
+    public static void setClients(ArrayList<PrintWriter> clients) {
+        NetworkHandler.clients = clients;
     }
 }

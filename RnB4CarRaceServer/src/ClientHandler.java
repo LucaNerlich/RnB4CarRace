@@ -54,4 +54,8 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
         }
     }
+
+    public static int getClientId() {
+        return clientId;
+    }
 }
