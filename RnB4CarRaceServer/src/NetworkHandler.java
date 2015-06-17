@@ -36,10 +36,10 @@ public class NetworkHandler implements Runnable {
         */
 
                 System.out.println("Starting Timer, accepting clients");
-                timer.schedule(new RaceTimer(Thread.currentThread(), serverSocket, pool, clients), 30000);
+                timer.schedule(new RaceTimer(Thread.currentThread(), serverSocket, pool, clients), 45000);
                 try {
                     System.out.println("vor sleep 1");
-                    Thread.sleep(40000);
+                    Thread.sleep(50000);
                     System.out.println("nach sleep 1");
                 } catch (InterruptedException e) {
                     //atm wird das rennen nur einmal ausgefuehrt.
@@ -79,6 +79,8 @@ public class NetworkHandler implements Runnable {
                 System.out.println("Calculating Race and Winner... Please stand by.");
                 RaceCar winner = RaceCalculator.calculateRace();
                 PrintWriter out;
+
+                //todo ZIEHT IM MOMENT NUR EINEN CLIENTEN IN BETRACHT
 
                 //send winner to all clients
                 if (winner != null) {

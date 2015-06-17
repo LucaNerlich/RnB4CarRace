@@ -48,6 +48,7 @@ public class RaceCalculator {
 
         //calculate Winner from Cars
         if (raceCars.size() > 0) {
+            winner = raceCars.get(0);
             String currentWinnerName = raceCars.get(0).getName();
             long currentWinnerTime = raceCars.get(0).getTimeFinished();
 
