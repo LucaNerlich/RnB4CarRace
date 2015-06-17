@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Luca Nerlich on 15.06.2015.
+ * Verwaltet die Verbindungen des Servers.
  */
 public class NetworkHandler implements Runnable {
     private final ServerSocket serverSocket;

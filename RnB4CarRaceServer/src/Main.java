@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Luca Nerlich on 15.06.2015.
+ * orientiert an: https://de.wikibooks.org/wiki/Java_Standard:_Socket_ServerSocket_(java.net)_UDP_und_TCP_IP#Ein_etwas_komfortableres_Client.2FServer-Beispiel
  */
 public class Main {
     public static void main(String[] args) throws IOException {

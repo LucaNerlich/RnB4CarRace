@@ -5,6 +5,7 @@ import java.net.Socket;
 
 /**
  * Created by lnerlich on 16.06.2015.
+ * Verwaltet die Netzwerkverbindung des Clienten.
  */
 public class ConnectionHandler {
     private static String ip;

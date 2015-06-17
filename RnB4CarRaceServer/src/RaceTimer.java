@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 
 /**
  * Created by Luca Nerlich on 17.06.2015.
+ * Timerklasse die fuer eine gegebene Zeit neue Clientenverbindungen akzeptiert.
  */
 public class RaceTimer extends TimerTask {
 

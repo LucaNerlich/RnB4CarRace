@@ -20,6 +20,9 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
+/**
+ * Verwaltet die Guielemnte und verarbeitet Events.
+ */
 public class GuiController implements Initializable {
 
     @FXML

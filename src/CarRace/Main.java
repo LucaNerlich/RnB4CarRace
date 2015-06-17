@@ -6,6 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Created by lnerlich on 16.06.2015.
+ * Laedt die Gui.
+ */
 public class Main extends Application {
 
     @Override

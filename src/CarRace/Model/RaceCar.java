@@ -1,12 +1,17 @@
 package CarRace.Model;
 
 /**
- * Created by lnerlich on 16.06.2015.
+ * Placeholder Klasse fuer das Autorennen. Dient der moeglichen Erweiterung.
+ * Startplatz, Geschwindigkeit, Rundenzeit...
  */
 public class RaceCar {
 
     String name;
     String geschwindigkeit;
+
+    public RaceCar() {
+        //
+    }
 
     public RaceCar(String name) {
         this.name = name;

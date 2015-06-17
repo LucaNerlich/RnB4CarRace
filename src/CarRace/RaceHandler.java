@@ -14,6 +14,7 @@ import java.util.Observer;
 
 /**
  * Created by lnerlich on 16.06.2015.
+ * Verwaltet den Clienten. Schickt Nachrichten zum Server.
  */
 public class RaceHandler {
 
@@ -27,7 +28,12 @@ public class RaceHandler {
         this.listener = listener;
     }
 
-    public void schreibeNachricht(String nachricht) throws IOException {
+    /**
+     * Nimmt einen String entgegen und schickt diesen an den Server am Socket.
+     * @param nachricht -> String der an den Server uebermittelt wird.
+     * @throws IOException
+     */
+    private void schreibeNachricht(String nachricht) throws IOException {
         PrintWriter printWriter =
                 new PrintWriter(
                         new OutputStreamWriter(
@@ -36,6 +42,10 @@ public class RaceHandler {
         printWriter.flush();
     }
 
+    /**
+     * Fuegt RaceCars einer Liste hinzu und uebermittelt diese dem Server.
+     * @return boolean -> war das hinzufuegen erfolgreich?
+     */
     public boolean registerCars(){
         boolean added = false;
         String message;

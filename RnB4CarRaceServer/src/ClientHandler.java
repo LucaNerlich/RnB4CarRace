@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Luca Nerlich on 15.06.2015.
+ * Verwaltet die einzelnen Clienten.
  */
 public class ClientHandler implements Runnable {
     //hier muessen alle autos gesammelt werden?

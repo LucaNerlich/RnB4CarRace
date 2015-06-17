@@ -3,6 +3,7 @@ import java.util.Random;
 
 /**
  * Created by lnerlich on 16.06.2015.
+ * Bekommt Informationen uber Teilnehmer und berechnet den Ausgang des Rennens.
  */
 public class RaceCalculator {
     // klasse zur Zentralen Rennverwaltung
@@ -27,6 +28,10 @@ public class RaceCalculator {
         return RaceCalculator.instance;
     }
 
+    /**
+     * Berechet / findet zufaellig einen Gewinner des Autorennens.
+     * @return -> RaceCar Gewinner des Rennens.
+     */
     public static RaceCar calculateRace() {
         RaceCar winner = null;
         int amountOfCompetitors = carNames.size();

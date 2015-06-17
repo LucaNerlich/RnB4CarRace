@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 /**
  * Created by lnerlich on 16.06.2015.
+ * Wartet auf Serverrueckmeldungen und gibt diese aus.
  */
 public class Listener implements Runnable {
     private Socket socket;

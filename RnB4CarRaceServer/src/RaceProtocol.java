@@ -1,5 +1,6 @@
 /**
  * Created by lnerlich on 16.06.2015.
+ * Verwaltet und ordnet die Inputs des Clienten zu.
  */
 public class RaceProtocol {
     private static final int WAITING = 0;
@@ -23,6 +24,11 @@ public class RaceProtocol {
 
     //messages werden immer mit bei nem '-' getrennt und verarbeitet.
     //deswegen muessen alle eingehenden strings zwingend bei mehr als einem Wort mit '-' getrennt werden.
+    /**
+     * Verarbeitet den Inputstring und gibt entsprechende Rueckgaben.
+     * @param theInput -> String mit '-' als Trennzeichen
+     * @return
+     */
     public String processInput(String theInput) {
         String theOutput = null;
         String carNames;

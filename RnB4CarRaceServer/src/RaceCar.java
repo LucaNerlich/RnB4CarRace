@@ -1,5 +1,7 @@
 /**
  * Created by lnerlich on 16.06.2015.
+ * Placeholder Klasse fuer das Autorennen. Dient der moeglichen Erweiterung.
+ * Startplatz, Geschwindigkeit, Rundenzeit...
  */
 public class RaceCar {
 
