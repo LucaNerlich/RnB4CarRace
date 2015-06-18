@@ -35,7 +35,9 @@ public class NetworkHandler implements Runnable {
          Dem Handler werden als Parameter uebergeben:
          der ServerSocket und der Socket des anfordernden Clients.
         */
-
+                // currenttime = system time millis
+                // endtime =  currentime + 30000
+                // while currentime < endtime
                 System.out.println("Starting Timer, accepting clients");
                 timer.schedule(new RaceTimer(Thread.currentThread(), serverSocket, pool, clients), 45000);
                 try {
