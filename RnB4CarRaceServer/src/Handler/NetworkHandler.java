@@ -41,7 +41,7 @@ public class NetworkHandler implements Runnable {
 
         System.out.println("Starting Timer, accepting clients");
 
-        //danke Julian fuer den Lambda Ausdruck:
+        //danke Julian E. fuer den Lambda Ausdruck:
         Runnable acceptingClients = () -> {
             acceptClients();
         };
@@ -111,7 +111,7 @@ public class NetworkHandler implements Runnable {
                         clients.add(new PrintWriter(cs.getOutputStream(), true));
 
                         //starte den Handler-Thread zur Realisierung der Client-Anforderung
-                        ClientHandler client = new ClientHandler(serverSocket, cs, clients);
+                        ClientHandler client = new ClientHandler(serverSocket, cs);
                         Race.RaceCalculator.addClientHandler(client);
                         pool.execute(client);
                         System.out.println("Client_" + ClientHandler.getClientId() + " added");

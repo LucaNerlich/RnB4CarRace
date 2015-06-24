@@ -16,22 +16,18 @@ public class ClientHandler implements Runnable {
     private final Socket client;
     private final ServerSocket serverSocket;
     private static int clientId;
-    private static ArrayList<PrintWriter> clients;
-    BufferedReader bufferedReader;
+    private BufferedReader bufferedReader;
 
-    ClientHandler(ServerSocket serverSocket, Socket client, ArrayList<PrintWriter> clients) { //Server/Client-Socket
+    ClientHandler(ServerSocket serverSocket, Socket client) { //Server/Client-Socket
         this.client = client;
         this.serverSocket = serverSocket;
         clientId++;
-        this.clients = clients;
     }
 
     @Override
     public void run() {
-        // Iterator<DataOutputStream> it = Handler.NetworkHandler.getClients().iterator();
 
-        StringBuffer sb = new StringBuffer();
-        PrintWriter out = null;
+        PrintWriter out;
         System.out.println("running service, " + Thread.currentThread());
         try {
             while (true) {
@@ -48,7 +44,9 @@ public class ClientHandler implements Runnable {
                 //nachricht.split("\\s");
                 System.out.println("Client_ID_'" + clientId + "'_" + client.getInetAddress() + ":" + client.getLocalPort() + " _ " + nachricht);
                 String answer = Race.RaceProtocol.getInstance().processInput(nachricht);
-                out.println("Server " + serverSocket.getInetAddress() + ":" + serverSocket.getLocalPort() + " _ " + answer);  //R�ckgabe Ergebnis an den Client
+
+                //send message to client
+                out.println("Server " + serverSocket.getInetAddress() + ":" + serverSocket.getLocalPort() + " _ " + answer);
             }
         } catch (IOException e) {
             e.printStackTrace();

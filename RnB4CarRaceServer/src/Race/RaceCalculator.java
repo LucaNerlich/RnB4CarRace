@@ -38,11 +38,12 @@ public class RaceCalculator {
      */
     public static RaceCar calculateRace() {
         RaceCar winner = null;
-        int amountOfCompetitors = carNames.size();
 
-        //generate a Time for each Car
+        //generate a random Time for each Car
         if (carNames.size() > 0) {
             for (String carName : carNames) {
+
+                //zahlen atm noch zu groß, todo 'realistischere' Zahlen
                 Random random = new Random();
                 int racetime = random.nextInt();
 
@@ -59,13 +60,10 @@ public class RaceCalculator {
         //calculate Winner from Cars
         if (raceCars.size() > 0) {
             winner = raceCars.get(0);
-            String currentWinnerName = raceCars.get(0).getName();
             long currentWinnerTime = raceCars.get(0).getTimeFinished();
 
             for (RaceCar raceCar : raceCars) {
                 if (raceCar.getTimeFinished() < currentWinnerTime) {
-                    currentWinnerTime = raceCar.getTimeFinished();
-                    currentWinnerName = raceCar.getName();
                     winner = raceCar;
                 }
             }
