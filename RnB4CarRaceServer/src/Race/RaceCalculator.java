@@ -1,3 +1,7 @@
+package Race;
+
+import Handler.ClientHandler;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,7 +34,7 @@ public class RaceCalculator {
 
     /**
      * Berechet / findet zufaellig einen Gewinner des Autorennens.
-     * @return -> RaceCar Gewinner des Rennens.
+     * @return -> Race.RaceCar Gewinner des Rennens.
      */
     public static RaceCar calculateRace() {
         RaceCar winner = null;

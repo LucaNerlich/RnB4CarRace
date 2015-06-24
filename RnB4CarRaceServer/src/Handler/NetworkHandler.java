@@ -1,3 +1,5 @@
+package Handler;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -14,6 +16,9 @@ public class NetworkHandler implements Runnable {
     private final ServerSocket serverSocket;
     private final ExecutorService pool;
     private static ArrayList<PrintWriter> clients;
+    private MessageHandler messageHandler;
+
+    //for future use
     private static Set<Socket> clientSockets = new HashSet<>();
 
     public NetworkHandler(ExecutorService pool,
@@ -21,9 +26,10 @@ public class NetworkHandler implements Runnable {
         this.serverSocket = serverSocket;
         this.pool = pool;
         clients = new ArrayList();
+        messageHandler = new MessageHandler();
     }
 
-    public void run() { // run the service
+    public void run() {
 
         /*
          Zunaechst wird eine Client-Anforderung entgegengenommen(accept-Methode).
@@ -35,13 +41,14 @@ public class NetworkHandler implements Runnable {
 
         System.out.println("Starting Timer, accepting clients");
 
-        //danke Julian:
+        //danke Julian fuer den Lambda Ausdruck:
         Runnable acceptingClients = () -> {
             acceptClients();
         };
         new Thread(acceptingClients).start();
 
         try {
+            //WAIT FOR SERVER TO ACCEPT CLIENTS, KACK LOESUNG
             Thread.sleep(40000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -51,30 +58,29 @@ public class NetworkHandler implements Runnable {
 
         try {
             //execute race:
-
-            RaceCar winner = RaceCalculator.calculateRace();
-            PrintWriter out;
+            Race.RaceCar winner = Race.RaceCalculator.calculateRace();
 
             //send winner to all clients
             if (winner != null) {
-                for (int i = 0; i < clients.size(); i++) {
-                    out = clients.get(i);
-                    out.println("Race Over, the registered cars are: " + RaceProtocol.carNames);
-                    out.println("The Winner is: " + winner.getName() + " with a time of: " + winner.getTimeFinished());
-                    System.out.println("Winner: " + winner.getName());
-                }
+                messageHandler.sendMessageToClients(clients, "Race Over, the registered cars are: " + Race.RaceProtocol.carNames);
+                messageHandler.sendMessageToClients(clients, "The Winner is: " + winner.getName() + " with a time of: " + winner.getTimeFinished());
             } else {
-                for (int i = 0; i < clients.size(); i++) {
-                    out = clients.get(i);
-                    out.println("Es nahmen keine Autos am Rennen teil.");
-                    System.out.println("Error, keine Autos.");
-                }
+                messageHandler.sendMessageToClients(clients, "Es nahmen keine Autos am Rennen teil.");
             }
 
         } finally {
             System.out.println("--- Ende NetworkService(pool.shutdown)");
-            pool.shutdown();  //keine Annahme von neuen Anforderungen
             try {
+                //close client streams
+                for (PrintWriter pw : clients) {
+                    pw.close();
+                }
+
+                for (Socket socket : clientSockets) {
+                    socket.close();
+                }
+
+                pool.shutdown();  //keine Annahme von neuen Anforderungen
                 //warte maximal 4 Sekunden auf Beendigung aller Anforderungen
                 pool.awaitTermination(4L, TimeUnit.SECONDS);
                 if (!serverSocket.isClosed()) {
@@ -85,7 +91,6 @@ public class NetworkHandler implements Runnable {
             } catch (InterruptedException ei) {
             }
         }
-        // }
     }
 
     private void acceptClients() {
@@ -107,7 +112,7 @@ public class NetworkHandler implements Runnable {
 
                         //starte den Handler-Thread zur Realisierung der Client-Anforderung
                         ClientHandler client = new ClientHandler(serverSocket, cs, clients);
-                        RaceCalculator.addClientHandler(client);
+                        Race.RaceCalculator.addClientHandler(client);
                         pool.execute(client);
                         System.out.println("Client_" + ClientHandler.getClientId() + " added");
                     }

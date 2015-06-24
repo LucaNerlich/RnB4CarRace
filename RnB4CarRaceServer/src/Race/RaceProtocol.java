@@ -1,3 +1,5 @@
+package Race;
+
 /**
  * Created by lnerlich on 16.06.2015.
  * Verwaltet und ordnet die Inputs des Clienten zu.
@@ -7,7 +9,7 @@ public class RaceProtocol {
     private static final int RACEONGOING = 1;
     private static final int RACEFINISHED = 2;
     private static RaceProtocol instance = null;
-    static String carNames;
+    public static String carNames;
 
     private int state = WAITING;
 

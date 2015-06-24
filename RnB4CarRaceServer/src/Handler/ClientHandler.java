@@ -1,3 +1,5 @@
+package Handler;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,8 +13,6 @@ import java.util.ArrayList;
  * Verwaltet die einzelnen Clienten.
  */
 public class ClientHandler implements Runnable {
-    //hier muessen alle autos gesammelt werden?
-
     private final Socket client;
     private final ServerSocket serverSocket;
     private static int clientId;
@@ -28,7 +28,7 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        // Iterator<DataOutputStream> it = NetworkHandler.getClients().iterator();
+        // Iterator<DataOutputStream> it = Handler.NetworkHandler.getClients().iterator();
 
         StringBuffer sb = new StringBuffer();
         PrintWriter out = null;
@@ -47,8 +47,7 @@ public class ClientHandler implements Runnable {
                 String nachricht = new String(buffer, 0, anzahlZeichen);
                 //nachricht.split("\\s");
                 System.out.println("Client_ID_'" + clientId + "'_" + client.getInetAddress() + ":" + client.getLocalPort() + " _ " + nachricht);
-
-                String answer = RaceProtocol.getInstance().processInput(nachricht);
+                String answer = Race.RaceProtocol.getInstance().processInput(nachricht);
                 out.println("Server " + serverSocket.getInetAddress() + ":" + serverSocket.getLocalPort() + " _ " + answer);  //R�ckgabe Ergebnis an den Client
             }
         } catch (IOException e) {
