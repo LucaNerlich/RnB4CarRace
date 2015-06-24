@@ -38,7 +38,24 @@ public class RaceCalculator {
      */
     public static RaceCar calculateRace() {
         RaceCar winner = null;
+        
+        generateTimes();
 
+        //calculate Winner from Cars
+        if (raceCars.size() > 0) {
+            winner = raceCars.get(0);
+            long currentWinnerTime = raceCars.get(0).getTimeFinished();
+
+            for (RaceCar raceCar : raceCars) {
+                if (raceCar.getTimeFinished() < currentWinnerTime) {
+                    winner = raceCar;
+                }
+            }
+        }
+        return winner;
+    }
+
+    private static void generateTimes(){
         //generate a random Time for each Car
         if (carNames.size() > 0) {
             for (String carName : carNames) {
@@ -56,19 +73,6 @@ public class RaceCalculator {
                 raceCars.add(raceCar);
             }
         }
-
-        //calculate Winner from Cars
-        if (raceCars.size() > 0) {
-            winner = raceCars.get(0);
-            long currentWinnerTime = raceCars.get(0).getTimeFinished();
-
-            for (RaceCar raceCar : raceCars) {
-                if (raceCar.getTimeFinished() < currentWinnerTime) {
-                    winner = raceCar;
-                }
-            }
-        }
-        return winner;
     }
 
     public static void addClientHandler(ClientHandler clientHandler) {
