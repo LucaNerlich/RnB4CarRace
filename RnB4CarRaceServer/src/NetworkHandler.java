@@ -16,7 +16,9 @@ public class NetworkHandler implements Runnable {
     private final ServerSocket serverSocket;
     private final ExecutorService pool;
     private static ArrayList<PrintWriter> clients;
-    static Timer timer = new Timer(true); // set daemon
+    private static Timer timer = new Timer(true); // set daemon
+    private long currenttime = System.currentTimeMillis();
+    private long endtime = currenttime + 30000;
 
     public NetworkHandler(ExecutorService pool,
                           ServerSocket serverSocket) {
@@ -26,8 +28,9 @@ public class NetworkHandler implements Runnable {
     }
 
     public void run() { // run the service
-        try {
-            while (true) {
+        // try {
+        //while (System.currentTimeMillis() < endtime) {
+
         /*
          Zunaechst wird eine Client-Anforderung entgegengenommen(accept-Methode).
          Der ExecutorService pool liefert einen Thread, dessen run-Methode
@@ -35,80 +38,73 @@ public class NetworkHandler implements Runnable {
          Dem Handler werden als Parameter uebergeben:
          der ServerSocket und der Socket des anfordernden Clients.
         */
-                // currenttime = system time millis
-                // endtime =  currentime + 30000
-                // while currentime < endtime
-                System.out.println("Starting Timer, accepting clients");
-                timer.schedule(new RaceTimer(Thread.currentThread(), serverSocket, pool, clients), 45000);
+
+        System.out.println("Starting Timer, accepting clients");
+
+        Runnable acceptingClients = () -> {
+            acceptClients();
+        };
+        new Thread(acceptingClients).start();
+
+        /*
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
                 try {
-                    System.out.println("vor sleep 1");
-                    Thread.sleep(50000);
-                    System.out.println("nach sleep 1");
-                } catch (InterruptedException e) {
-                    //atm wird das rennen nur einmal ausgefuehrt.
-                    e.printStackTrace();
-                }
-                                  /*
+                    Socket cs = null;  //warten auf Client-Anforderung
+                    System.out.println("Accepting Clients...");
+                    cs = serverSocket.accept();
 
-                Timer t = new Timer();
-                t.schedule(new TimerTask() {
+                    //list of clients to send messages to
+                    clients.add(new PrintWriter(cs.getOutputStream(), true));
 
-                    //run for 30 seconds
-                    @Override
-                    public void run() {
-                                     //timer
-                        Socket cs = null;  //warten auf Client-Anforderung
-                        try {
-                            System.out.println("Accepting Clients...");
-                            cs = serverSocket.accept();
-
-                            //list of clients to send messages to
-                            clients.add(new PrintWriter(cs.getOutputStream(), true));
-
-                            //starte den Handler-Thread zur Realisierung der Client-Anforderung
-                            ClientHandler client = new ClientHandler(serverSocket, cs, clients);
-                            RaceCalculator.addClientHandler(client);
-                            pool.execute(client);
-                            System.out.println("Client_" + ClientHandler.getClientId() + " added");
-                        } catch (IOException e) {
-                            System.out.println("--- Interrupt NetworkService-run");
-                        }
-                    }
-                }, 30000L);
-
-                        */
-                //execute race:
-
-                System.out.println("Calculating Race and Winner... Please stand by.");
-                RaceCar winner = RaceCalculator.calculateRace();
-                PrintWriter out;
-
-                //todo ZIEHT IM MOMENT NUR EINEN CLIENTEN IN BETRACHT
-
-                //send winner to all clients
-                if (winner != null) {
-                    for (int i = 0; i < clients.size(); i++) {
-                        out = clients.get(i);
-                        out.println("The Winner is: " + winner.getName() + " with a time of: " + winner.getTimeFinished());
-                        System.out.println("Winner: " + winner.getName());
-                    }
-                } else {
-                    for (int i = 0; i < clients.size(); i++) {
-                        out = clients.get(i);
-                        out.println("Es nahmen keine Autos am Rennen teil.");
-                        System.out.println("Error, keine Autos.");
-                    }
-                }
-                try {
-                    System.out.println("vor sleep 2");
-                    Thread.sleep(5000);
-                    System.out.println("nach sleep, vor break 2");
-                    break;
-                } catch (InterruptedException e) {
-                    //atm wird das rennen nur einmal ausgefuehrt.
-                    e.printStackTrace();
+                    //starte den Handler-Thread zur Realisierung der Client-Anforderung
+                    ClientHandler client = new ClientHandler(serverSocket, cs, clients);
+                    RaceCalculator.addClientHandler(client);
+                    pool.execute(client);
+                    System.out.println("Client_" + ClientHandler.getClientId() + " added");
+                    System.out.println("Remaining Time: " + (endtime - System.currentTimeMillis()));
+                } catch (IOException e) {
+                    System.out.println("--- Interrupt NetworkService-run");
                 }
             }
+        },30_000);
+
+        */
+
+        // }
+
+        try {
+            Thread.sleep(40000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Timertask done - cannot accept new Clients");
+        System.out.println("Calculating Race and Winner... Please stand by.");
+
+        try {
+            //execute race:
+            //erstmal kein ende, zum testen
+
+            RaceCar winner = RaceCalculator.calculateRace();
+            PrintWriter out;
+
+            //send winner to all clients
+            if (winner != null) {
+                for (int i = 0; i < clients.size(); i++) {
+                    out = clients.get(i);
+                    out.println("The Winner is: " + winner.getName() + " with a time of: " + winner.getTimeFinished());
+                    System.out.println("Winner: " + winner.getName());
+                }
+            } else {
+                for (int i = 0; i < clients.size(); i++) {
+                    out = clients.get(i);
+                    out.println("Es nahmen keine Autos am Rennen teil.");
+                    System.out.println("Error, keine Autos.");
+                }
+            }
+
         } finally {
             System.out.println("--- Ende NetworkService(pool.shutdown)");
             pool.shutdown();  //keine Annahme von neuen Anforderungen
@@ -123,7 +119,37 @@ public class NetworkHandler implements Runnable {
             } catch (InterruptedException ei) {
             }
         }
+        // }
     }
+
+    private void acceptClients() {
+        System.out.println("Race starts in 30 seconds.");
+        Timer timer = new Timer();
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    Socket cs = null;  //warten auf Client-Anforderung
+                    System.out.println("Accepting Clients...");
+                    cs = serverSocket.accept();
+
+                    //list of clients to send messages to
+                    clients.add(new PrintWriter(cs.getOutputStream(), true));
+
+                    //starte den Handler-Thread zur Realisierung der Client-Anforderung
+                    ClientHandler client = new ClientHandler(serverSocket, cs, clients);
+                    RaceCalculator.addClientHandler(client);
+                    pool.execute(client);
+                    System.out.println("Client_" + ClientHandler.getClientId() + " added");
+                    System.out.println("Remaining Time: " + (endtime - System.currentTimeMillis()));
+                } catch (IOException e) {
+                    System.out.println("--- Interrupt NetworkService-run");
+                }
+            }
+        }, 30_000);
+    }
+
 
     public static ArrayList<PrintWriter> getClients() {
         return clients;

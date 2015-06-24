@@ -11,14 +11,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 /**
@@ -139,10 +136,11 @@ public class GuiController implements Initializable {
     public void onAddCarButton() {
         //todo falsche Namen abfangen, zb wenn space dazwischen
         String name = getGetNameTextField().getText();
-        if (name.length() > 0) {
-            raceHandler.addRaceCar(new RaceCar(name));
-            getNameTextField.clear();
-            getDisplayConsoleTextArea.appendText("\n Success - Car: " + name + "  added.");
+        if (name.length() > 0 && raceHandler.addRaceCar(new RaceCar(name))) {
+            {
+                getNameTextField.clear();
+                getDisplayConsoleTextArea.appendText("\n Success - Car: " + name + "  added.");
+            }
         } else {
             getDisplayConsoleTextArea.appendText("\n Error - No car name specified.");
         }
@@ -173,6 +171,8 @@ public class GuiController implements Initializable {
         }
         getRegcarsButton().setDisable(true);
         getAddCarButton().setDisable(true);
+        //keine erneute reg moeglich
+        getRegcarsButton().setDisable(true);
     }
 
     @FXML
