@@ -39,11 +39,11 @@ public class RaceProtocol {
         String[] inputParts = theInput.split("-");
 
         if (theInput.length() > 0) {
-            if (theInput.equals("/HELP")) {
+            if (inputParts[0].equals("/HELP")) {
                 theOutput = "Commands: '/HELP', '/INFO', '/EXIT'";
-            } else if (theInput.equals("/INFO")) {
+            } else if (inputParts[0].equals("/INFO")) {
                 theOutput = "Server: INFO ";
-            } else if (theInput.equals("/START")) {
+            } else if (inputParts[0].equals("/START")) {
                 theOutput = "Race will start in 3 Seconds";
             } else if (inputParts[0].equals("/REGCARS")) {
                 for (int i = 1; i < inputParts.length; i++) {
@@ -55,7 +55,7 @@ public class RaceProtocol {
                 }
                 carNames = sb.toString();
                 theOutput = "Registered Cars are: " + carNames;
-            } else if (theInput.equals("/EXIT")) {
+            } else if (inputParts[0].equals("/EXIT")) {
                 theOutput = "/EXIT";
             } else {
                 theOutput = theInput;

@@ -62,6 +62,7 @@ public class NetworkHandler implements Runnable {
 
             //send winner to all clients
             if (winner != null) {
+                //todo send all registered cars, not just the client specific ones
                 messageHandler.sendMessageToClients(clients, "Race Over, the registered cars are: " + Race.RaceProtocol.carNames);
                 messageHandler.sendMessageToClients(clients, "The Winner is: " + winner.getName() + " with a time of: " + winner.getTimeFinished());
             } else {
@@ -71,15 +72,6 @@ public class NetworkHandler implements Runnable {
         } finally {
             System.out.println("--- Ende NetworkService(pool.shutdown)");
             try {
-                //close client streams
-                for (PrintWriter pw : clients) {
-                    pw.close();
-                }
-
-                for (Socket socket : clientSockets) {
-                    socket.close();
-                }
-
                 pool.shutdown();  //keine Annahme von neuen Anforderungen
                 //warte maximal 4 Sekunden auf Beendigung aller Anforderungen
                 pool.awaitTermination(4L, TimeUnit.SECONDS);
