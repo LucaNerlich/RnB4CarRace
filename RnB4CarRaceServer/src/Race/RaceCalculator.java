@@ -38,7 +38,7 @@ public class RaceCalculator {
      */
     public static RaceCar calculateRace() {
         RaceCar winner = null;
-        
+
         generateTimes();
 
         //calculate Winner from Cars
