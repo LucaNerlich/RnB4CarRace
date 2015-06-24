@@ -15,9 +15,6 @@ public class NetworkHandler implements Runnable {
     private final ExecutorService pool;
     private static ArrayList<PrintWriter> clients;
     private static Set<Socket> clientSockets = new HashSet<>();
-    private static Timer timer = new Timer(true); // set daemon
-    private long currenttime = System.currentTimeMillis();
-    private long endtime = currenttime + 30000;
 
     public NetworkHandler(ExecutorService pool,
                           ServerSocket serverSocket) {
@@ -27,8 +24,6 @@ public class NetworkHandler implements Runnable {
     }
 
     public void run() { // run the service
-        // try {
-        //while (System.currentTimeMillis() < endtime) {
 
         /*
          Zunaechst wird eine Client-Anforderung entgegengenommen(accept-Methode).
@@ -40,39 +35,11 @@ public class NetworkHandler implements Runnable {
 
         System.out.println("Starting Timer, accepting clients");
 
+        //danke Julian:
         Runnable acceptingClients = () -> {
             acceptClients();
         };
         new Thread(acceptingClients).start();
-
-        /*
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    Socket cs = null;  //warten auf Client-Anforderung
-                    System.out.println("Accepting Clients...");
-                    cs = serverSocket.accept();
-
-                    //list of clients to send messages to
-                    clients.add(new PrintWriter(cs.getOutputStream(), true));
-
-                    //starte den Handler-Thread zur Realisierung der Client-Anforderung
-                    ClientHandler client = new ClientHandler(serverSocket, cs, clients);
-                    RaceCalculator.addClientHandler(client);
-                    pool.execute(client);
-                    System.out.println("Client_" + ClientHandler.getClientId() + " added");
-                    System.out.println("Remaining Time: " + (endtime - System.currentTimeMillis()));
-                } catch (IOException e) {
-                    System.out.println("--- Interrupt NetworkService-run");
-                }
-            }
-        },30_000);
-
-        */
-
-        // }
 
         try {
             Thread.sleep(40000);
@@ -84,7 +51,6 @@ public class NetworkHandler implements Runnable {
 
         try {
             //execute race:
-            //erstmal kein ende, zum testen
 
             RaceCar winner = RaceCalculator.calculateRace();
             PrintWriter out;
@@ -93,6 +59,7 @@ public class NetworkHandler implements Runnable {
             if (winner != null) {
                 for (int i = 0; i < clients.size(); i++) {
                     out = clients.get(i);
+                    out.println("Race Over, the registered cars are: " + RaceProtocol.carNames);
                     out.println("The Winner is: " + winner.getName() + " with a time of: " + winner.getTimeFinished());
                     System.out.println("Winner: " + winner.getName());
                 }
@@ -143,12 +110,10 @@ public class NetworkHandler implements Runnable {
                         RaceCalculator.addClientHandler(client);
                         pool.execute(client);
                         System.out.println("Client_" + ClientHandler.getClientId() + " added");
-                        System.out.println("Remaining Time: " + (endtime - System.currentTimeMillis()));
                     }
-                    }catch(IOException e){
-                        System.out.println("--- Interrupt NetworkService-run");
-                    }
-
+                } catch (IOException e) {
+                    System.out.println("--- Interrupt NetworkService-run");
+                }
             }
         }, 30_000);
     }

@@ -7,6 +7,7 @@ public class RaceProtocol {
     private static final int RACEONGOING = 1;
     private static final int RACEFINISHED = 2;
     private static RaceProtocol instance = null;
+    static String carNames;
 
     private int state = WAITING;
 
@@ -31,7 +32,7 @@ public class RaceProtocol {
      */
     public String processInput(String theInput) {
         String theOutput = null;
-        String carNames;
+
         StringBuilder sb = new StringBuilder();
         // theOutput = stringsplit by -
         String[] inputParts = theInput.split("-");
