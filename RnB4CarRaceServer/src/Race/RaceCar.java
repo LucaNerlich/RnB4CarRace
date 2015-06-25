@@ -20,7 +20,8 @@ public class RaceCar {
     }
 
     public RaceCar(Socket client, String name){
-        this.socket =client;
+        this.socket = client;
+        this.name = name;
     }
 
     public RaceCar(String name, int timeFinished) {

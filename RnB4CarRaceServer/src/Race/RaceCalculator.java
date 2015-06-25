@@ -85,6 +85,7 @@ public class RaceCalculator {
     public synchronized static void addCar(Socket client, String carName) {
         if (carName.length() > 0) {
             RaceCar raceCar = new RaceCar(client, carName);
+            raceCars.add(raceCar);
             //  carNames.add(carName);
         }
     }
