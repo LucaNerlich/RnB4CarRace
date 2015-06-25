@@ -50,6 +50,7 @@ public class RaceHandler {
      * @return boolean -> war das hinzufuegen erfolgreich?
      */
     public boolean registerCars() {
+        int counter = 1;
         boolean added = false;
         String message;
         StringBuilder sb = new StringBuilder();
@@ -57,7 +58,8 @@ public class RaceHandler {
         sb.append("-");
         if (raceCars.size() > 0) {
             for (RaceCar raceCar : raceCars) {
-                sb.append(raceCar.getName());
+                sb.append(raceCar.getName() + counter);
+                counter++;
                 sb.append("-");
             }
 
