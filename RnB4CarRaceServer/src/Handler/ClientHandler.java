@@ -43,7 +43,7 @@ public class ClientHandler implements Runnable {
                 String nachricht = new String(buffer, 0, anzahlZeichen);
                 //nachricht.split("\\s");
                 System.out.println("Client_ID_'" + clientId + "'_" + client.getInetAddress() + ":" + client.getLocalPort() + " _ " + nachricht);
-                String answer = Race.RaceProtocol.getInstance().processInput(nachricht);
+                String answer = Race.RaceProtocol.getInstance().processInput(client, nachricht);
 
                 //send message to client
                 out.println("Server " + serverSocket.getInetAddress() + ":" + serverSocket.getLocalPort() + " _ " + answer);

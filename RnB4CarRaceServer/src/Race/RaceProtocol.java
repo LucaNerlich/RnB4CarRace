@@ -1,5 +1,7 @@
 package Race;
 
+import java.net.Socket;
+
 /**
  * Created by lnerlich on 16.06.2015.
  * Verwaltet und ordnet die Inputs des Clienten zu.
@@ -29,7 +31,7 @@ public class RaceProtocol {
      * @param theInput -> String mit '-' als Trennzeichen
      * @return
      */
-    public String processInput(String theInput) {
+    public String processInput(Socket client, String theInput) {
         String theOutput = null;
 
         //TODO ueberarbeiten, per Handler loesen
@@ -50,7 +52,7 @@ public class RaceProtocol {
                     sb.append(inputParts[i]);
 
                     //add Car to Race
-                    RaceCalculator.addCar(inputParts[i]);
+                    RaceCalculator.addCar(client, inputParts[i]);
                     sb.append(", ");
                 }
                 carNames = sb.toString();

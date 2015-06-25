@@ -2,6 +2,7 @@ package Race;
 
 import Handler.ClientHandler;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,7 +18,7 @@ public class RaceCalculator {
 
     private static RaceCalculator instance = null;
     private static ArrayList<ClientHandler> clientHandlers = new ArrayList();
-    private static ArrayList<String> carNames = new ArrayList<>();
+   // private static ArrayList<String> carNames = new ArrayList<>();
     private static ArrayList<RaceCar> raceCars = new ArrayList<>();
 
     private RaceCalculator() {
@@ -34,6 +35,7 @@ public class RaceCalculator {
 
     /**
      * Berechet / findet zufaellig einen Gewinner des Autorennens.
+     *
      * @return -> Race.RaceCar Gewinner des Rennens.
      */
     public static RaceCar calculateRace() {
@@ -55,11 +57,10 @@ public class RaceCalculator {
         return winner;
     }
 
-    private static void generateTimes(){
+    private static void generateTimes() {
         //generate a random Time for each Car
-        if (carNames.size() > 0) {
-            for (String carName : carNames) {
-
+        if (raceCars.size() > 0) {
+            for (RaceCar raceCar : raceCars) {
                 //zahlen atm noch zu groﬂ, todo 'realistischere' Zahlen
                 Random random = new Random();
                 int racetime = random.nextInt();
@@ -68,10 +69,12 @@ public class RaceCalculator {
                 if (racetime < 0) {
                     racetime = (racetime * -1);
                 }
-                RaceCar raceCar = new RaceCar(carName, racetime);
-                System.out.println(racetime);
-                raceCars.add(raceCar);
+                raceCar.setTimeFinished(racetime);
             }
+
+            //RaceCar raceCar = new RaceCar(carName, racetime);
+            //System.out.println(racetime);
+            //raceCars.add(raceCar);
         }
     }
 
@@ -79,9 +82,10 @@ public class RaceCalculator {
         clientHandlers.add(clientHandler);
     }
 
-    public synchronized static void addCar(String carName) {
+    public synchronized static void addCar(Socket client, String carName) {
         if (carName.length() > 0) {
-            carNames.add(carName);
+            RaceCar raceCar = new RaceCar(client, carName);
+            //  carNames.add(carName);
         }
     }
 
@@ -89,7 +93,7 @@ public class RaceCalculator {
      * ueberschreibe beide Arrays mit einem leeren, neuen.
      */
     public static void clearAllCars() {
-        carNames = new ArrayList<>();
+        //carNames = new ArrayList<>();
         raceCars = new ArrayList<>();
     }
 }

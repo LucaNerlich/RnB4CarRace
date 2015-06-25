@@ -63,8 +63,11 @@ public class NetworkHandler implements Runnable {
             //send winner to all clients
             if (winner != null) {
                 //todo send all registered cars, not just the client specific ones
+                String inetaddress = winner.getSocket().getLocalAddress().toString();
+                int port = winner.getSocket().getPort();
                 messageHandler.sendMessageToClients(clients, "Race Over, the registered cars are: " + Race.RaceProtocol.carNames);
-                messageHandler.sendMessageToClients(clients, "The Winner is: " + winner.getName() + " with a time of: " + winner.getTimeFinished());
+                messageHandler.sendMessageToClients(clients, "The Winner is: " + winner.getName() +
+                        " at the Address: " + inetaddress +":" + port + " with a time of: " + winner.getTimeFinished());
             } else {
                 messageHandler.sendMessageToClients(clients, "Es nahmen keine Autos am Rennen teil.");
             }
