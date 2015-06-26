@@ -56,7 +56,7 @@ public class RaceProtocol {
                     sb.append(", ");
                 }
                 carNames = sb.toString();
-                theOutput = "Registered Cars are: " + carNames;
+                theOutput = "Server: Cars registered";
             } else if (inputParts[0].equals("/EXIT")) {
                 theOutput = "/EXIT";
             } else {

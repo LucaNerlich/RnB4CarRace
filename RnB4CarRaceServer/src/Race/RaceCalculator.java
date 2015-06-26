@@ -71,10 +71,6 @@ public class RaceCalculator {
                 }
                 raceCar.setTimeFinished(racetime);
             }
-
-            //RaceCar raceCar = new RaceCar(carName, racetime);
-            //System.out.println(racetime);
-            //raceCars.add(raceCar);
         }
     }
 
@@ -86,7 +82,6 @@ public class RaceCalculator {
         if (carName.length() > 0) {
             RaceCar raceCar = new RaceCar(client, carName);
             raceCars.add(raceCar);
-            //  carNames.add(carName);
         }
     }
 

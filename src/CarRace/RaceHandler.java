@@ -18,10 +18,6 @@ public class RaceHandler {
 
     private Socket socket;
     private Listener listener;
-
-
-    //make set to not allow duplicates?
-    //private ArrayList<RaceCar> raceCars = new ArrayList<>();
     private Set<RaceCar> raceCars = new HashSet<>();
 
     public RaceHandler(Socket socket, Listener listener) {

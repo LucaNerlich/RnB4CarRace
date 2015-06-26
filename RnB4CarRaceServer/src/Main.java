@@ -19,7 +19,6 @@ public class Main {
             final ExecutorService pool = Executors.newCachedThreadPool();
             int port = 3141;
             final ServerSocket serverSocket = new ServerSocket(port);
-            //serverSocket.setSoTimeout(60000); // Timeout nach 1 Minute
 
             Thread t1 = new Thread(new NetworkHandler(pool, serverSocket));
             System.out.println("Start NetworkService(Multiplikation), Thread: " + Thread.currentThread());
@@ -40,7 +39,9 @@ public class Main {
                                     serverSocket.close();
                                 }
                             } catch (IOException e) {
+                                //
                             } catch (InterruptedException ei) {
+                                //
                             }
                         }
                     }

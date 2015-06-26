@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
  * Created by Luca Nerlich on 15.06.2015.
@@ -41,7 +40,7 @@ public class ClientHandler implements Runnable {
                 char[] buffer = new char[100];
                 int anzahlZeichen = bufferedReader.read(buffer, 0, 100); // blockiert bis Nachricht empfangen
                 String nachricht = new String(buffer, 0, anzahlZeichen);
-                //nachricht.split("\\s");
+                
                 System.out.println("Client_ID_'" + clientId + "'_" + client.getInetAddress() + ":" + client.getLocalPort() + " _ " + nachricht);
                 String answer = Race.RaceProtocol.getInstance().processInput(client, nachricht);
 
