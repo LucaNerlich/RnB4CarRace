@@ -1,7 +1,9 @@
 package Race;
 
 import Handler.ClientHandler;
+import Handler.MessageHandler;
 
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,6 +22,8 @@ public class RaceCalculator {
     private static ArrayList<ClientHandler> clientHandlers = new ArrayList();
    // private static ArrayList<String> carNames = new ArrayList<>();
     private static ArrayList<RaceCar> raceCars = new ArrayList<>();
+    private static ArrayList<PrintWriter> clientList;
+    private static MessageHandler messageHandler = new MessageHandler();
 
     private RaceCalculator() {
         //
@@ -38,10 +42,31 @@ public class RaceCalculator {
      *
      * @return -> Race.RaceCar Gewinner des Rennens.
      */
-    public static RaceCar calculateRace() {
+    public static RaceCar calculateRace(ArrayList<PrintWriter> clients) {
         RaceCar winner = null;
+        clientList = clients;
+        //RaceOverview rO = new RaceOverview(raceCars);
+        ArrayList<Thread> carThreads = new ArrayList<>();
 
-        generateTimes();
+        for(RaceCar car : raceCars){
+            RaceCarThread raceCarThread = new RaceCarThread(car);
+            Thread thread = new Thread(raceCarThread);
+            thread.start();
+            carThreads.add(thread);
+        }
+
+        //Thread roThread = new Thread(rO);
+        //start race threads
+        //roThread.start();
+        try {
+            for(Thread thread : carThreads){
+                thread.join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //generateTimes();
 
         //calculate Winner from Cars
         if (raceCars.size() > 0) {
@@ -61,15 +86,14 @@ public class RaceCalculator {
         //generate a random Time for each Car
         if (raceCars.size() > 0) {
             for (RaceCar raceCar : raceCars) {
-                //zahlen atm noch zu groß, todo 'realistischere' Zahlen
-                Random random = new Random();
-                int racetime = random.nextInt();
 
-                //alle zeiten muessen > 0 sein.
-                if (racetime < 0) {
-                    racetime = (racetime * -1);
+                //3 runden
+                int time = 0;
+                for(int i = 0; i < 3 ; i++){
+                    time = time + (int)(Math.random() * 5) + 1;
+                    messageHandler.sendMessageToSingleClient(raceCar.getPw(), raceCar.getName() + " : Runde " + i + ": " + time + " in seconds.");
                 }
-                raceCar.setTimeFinished(racetime);
+                raceCar.setTimeFinished(time);
             }
         }
     }
@@ -78,10 +102,11 @@ public class RaceCalculator {
         clientHandlers.add(clientHandler);
     }
 
-    public synchronized static void addCar(Socket client, String carName) {
+    public synchronized static void addCar(Socket client, String carName, PrintWriter pw, ArrayList<RaceCar> cars) {
         if (carName.length() > 0) {
-            RaceCar raceCar = new RaceCar(client, carName);
+            RaceCar raceCar = new RaceCar(client, carName, pw);
             raceCars.add(raceCar);
+            cars.add(raceCar);
         }
     }
 

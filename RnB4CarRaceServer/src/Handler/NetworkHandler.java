@@ -47,9 +47,14 @@ public class NetworkHandler implements Runnable {
         };
         new Thread(acceptingClients).start();
 
+        /*
+        Runnable acceptingClients = this::acceptClients;
+        new Thread(acceptingClients).start();
+        */
+
         try {
             //WAIT FOR SERVER TO ACCEPT CLIENTS, KACK LOESUNG
-            Thread.sleep(40000);
+            Thread.sleep(32000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -58,13 +63,12 @@ public class NetworkHandler implements Runnable {
 
         try {
             //execute race:
-            Race.RaceCar winner = Race.RaceCalculator.calculateRace();
+            Race.RaceCar winner = Race.RaceCalculator.calculateRace(clients);
 
             //send winner to all clients
             if (winner != null) {
                 String inetaddress = winner.getSocket().getLocalAddress().toString();
                 int port = winner.getSocket().getPort();
-                messageHandler.sendMessageToClients(clients, "Race Over, the registered cars are: " + Race.RaceProtocol.carNames);
                 messageHandler.sendMessageToClients(clients, "The Winner is: " + winner.getName() +
                         " at the Address: " + inetaddress +":" + port + " with a time of: " + winner.getTimeFinished());
             } else {
@@ -102,10 +106,11 @@ public class NetworkHandler implements Runnable {
 
                         //list of clients to send messages to
                         clientSockets.add(cs);
-                        clients.add(new PrintWriter(cs.getOutputStream(), true));
+                        PrintWriter pw = new PrintWriter(cs.getOutputStream(), true);
+                        clients.add(pw);
 
                         //starte den Handler-Thread zur Realisierung der Client-Anforderung
-                        ClientHandler client = new ClientHandler(serverSocket, cs);
+                        ClientHandler client = new ClientHandler(serverSocket, cs, pw);
                         Race.RaceCalculator.addClientHandler(client);
                         pool.execute(client);
                         System.out.println("Client_" + ClientHandler.getClientId() + " added");

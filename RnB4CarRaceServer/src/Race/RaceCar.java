@@ -19,9 +19,10 @@ public class RaceCar {
         //
     }
 
-    public RaceCar(Socket client, String name){
+    public RaceCar(Socket client, String name, PrintWriter pw){
         this.socket = client;
         this.name = name;
+        this.pw = pw;
     }
 
     public RaceCar(String name, int timeFinished) {

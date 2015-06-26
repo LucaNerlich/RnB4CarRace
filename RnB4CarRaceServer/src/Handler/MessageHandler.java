@@ -19,4 +19,9 @@ public class MessageHandler {
             System.out.println(message);
         }
     }
+
+    public void sendMessageToSingleClient(PrintWriter pw, String message){
+        out = pw;
+        out.println(message);
+    }
 }

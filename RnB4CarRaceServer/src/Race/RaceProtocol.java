@@ -1,6 +1,8 @@
 package Race;
 
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Created by lnerlich on 16.06.2015.
@@ -31,7 +33,7 @@ public class RaceProtocol {
      * @param theInput -> String mit '-' als Trennzeichen
      * @return
      */
-    public String processInput(Socket client, String theInput) {
+    public String processInput(Socket client, String theInput, PrintWriter pw, ArrayList<RaceCar> cars) {
         String theOutput = null;
 
         //TODO ueberarbeiten, per Handler loesen
@@ -44,7 +46,10 @@ public class RaceProtocol {
             if (inputParts[0].equals("/HELP")) {
                 theOutput = "Commands: '/HELP', '/INFO', '/EXIT'";
             } else if (inputParts[0].equals("/INFO")) {
-                theOutput = "Server: INFO ";
+                theOutput = "Server: Cars waiting for start: ";
+                for(RaceCar car : cars){
+                    theOutput = theOutput + ", " + car.getName();
+                }
             } else if (inputParts[0].equals("/START")) {
                 theOutput = "Race will start in 3 Seconds";
             } else if (inputParts[0].equals("/REGCARS")) {
@@ -52,7 +57,7 @@ public class RaceProtocol {
                     sb.append(inputParts[i]);
 
                     //add Car to Race
-                    RaceCalculator.addCar(client, inputParts[i]);
+                    RaceCalculator.addCar(client, inputParts[i], pw, cars);
                     sb.append(", ");
                 }
                 carNames = sb.toString();

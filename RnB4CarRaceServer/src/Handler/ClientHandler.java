@@ -1,11 +1,14 @@
 package Handler;
 
+import Race.RaceCar;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Created by Luca Nerlich on 15.06.2015.
@@ -16,11 +19,14 @@ public class ClientHandler implements Runnable {
     private final ServerSocket serverSocket;
     private static int clientId;
     private BufferedReader bufferedReader;
+    private PrintWriter pw;
+    private ArrayList<RaceCar> cars = new ArrayList<>();
 
-    ClientHandler(ServerSocket serverSocket, Socket client) { //Server/Client-Socket
+    ClientHandler(ServerSocket serverSocket, Socket client, PrintWriter pw) { //Server/Client-Socket
         this.client = client;
         this.serverSocket = serverSocket;
         clientId++;
+        this.pw = pw;
     }
 
     @Override
@@ -40,9 +46,9 @@ public class ClientHandler implements Runnable {
                 char[] buffer = new char[100];
                 int anzahlZeichen = bufferedReader.read(buffer, 0, 100); // blockiert bis Nachricht empfangen
                 String nachricht = new String(buffer, 0, anzahlZeichen);
-                
+
                 System.out.println("Client_ID_'" + clientId + "'_" + client.getInetAddress() + ":" + client.getLocalPort() + " _ " + nachricht);
-                String answer = Race.RaceProtocol.getInstance().processInput(client, nachricht);
+                String answer = Race.RaceProtocol.getInstance().processInput(client, nachricht, pw, cars);
 
                 //send message to client
                 out.println("Server " + serverSocket.getInetAddress() + ":" + serverSocket.getLocalPort() + " _ " + answer);
@@ -54,5 +60,9 @@ public class ClientHandler implements Runnable {
 
     public static int getClientId() {
         return clientId;
+    }
+
+    public void addRaceCar(RaceCar car){
+        cars.add(car);
     }
 }

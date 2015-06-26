@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
@@ -55,12 +56,12 @@ public class GuiController implements Initializable {
     private Button loginButton;
     @FXML
     private Button useDefaultButton;
-    @FXML
-    private Button helpButton;
-    @FXML
-    private Button infoButton;
-    @FXML
-    private Button startButton;
+   // @FXML
+   // private Button helpButton;
+   // @FXML
+   // private Button infoButton;
+   // @FXML
+   // private Button startButton;
     @FXML
     private Button regcarsButton;
     @FXML
@@ -70,6 +71,8 @@ public class GuiController implements Initializable {
     Socket socket;
     Listener listener;
     Thread listenerThread;
+
+    private ArrayList<String> listOfCars = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -134,15 +137,28 @@ public class GuiController implements Initializable {
 
     @FXML
     public void onAddCarButton() {
-        //todo falsche Namen abfangen, zb wenn space dazwischen
         String name = getGetNameTextField().getText();
-        if (name.length() > 0 && raceHandler.addRaceCar(new RaceCar(name))) {
+
+        boolean alreadyAdded = false;
+        for (String car : listOfCars) {
+            if (name.equals(car)) {
+                alreadyAdded = true;
+            }
+        }
+
+        if (!alreadyAdded && name.length() > 0 && raceHandler.addRaceCar(new RaceCar(name))) {
             {
+                listOfCars.add(name);
                 getNameTextField.clear();
                 getDisplayConsoleTextArea.appendText("\n Success - Car: " + name + "  added.");
             }
         } else {
-            getDisplayConsoleTextArea.appendText("\n Error - No car name specified.");
+            if (!alreadyAdded) {
+                getDisplayConsoleTextArea.appendText("\n Error - No car name specified.");
+            } else {
+                getDisplayConsoleTextArea.appendText("\n Error - Car already added.");
+                getNameTextField.clear();
+            }
         }
     }
 
@@ -262,18 +278,6 @@ public class GuiController implements Initializable {
 
     public Thread getListenerThread() {
         return listenerThread;
-    }
-
-    public Button getHelpButton() {
-        return helpButton;
-    }
-
-    public Button getInfoButton() {
-        return infoButton;
-    }
-
-    public Button getStartButton() {
-        return startButton;
     }
 
     public Button getRegcarsButton() {
