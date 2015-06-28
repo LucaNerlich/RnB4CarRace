@@ -16,18 +16,19 @@ public class RaceCarThread implements Runnable {
 
     @Override
     public void run() {
-        int time = 0;
-        for(int i = 0; i < 3 ; i++){
-            time = time + (int)(Math.random() * 5) + 1;
+        int finalTime = 0;
+        for (int i = 0; i < 3; i++) {
+            int time = (int) (Math.random() * 5) + 1;
             messageHandler.sendMessageToSingleClient(raceCar.getPw(), raceCar.getName() + " : Runde " + i + ": " + time + " in seconds.");
             try {
-                Thread.sleep(1000);
+                Thread.sleep(time * 250);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            finalTime += time;
         }
 
         messageHandler.sendMessageToSingleClient(raceCar.getPw(), raceCar.getName() + " hat das Ziel erreicht!");
-        raceCar.setTimeFinished(time);
+        raceCar.setTimeFinished(finalTime);
     }
 }

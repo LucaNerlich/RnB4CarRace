@@ -63,7 +63,7 @@ public class NetworkHandler implements Runnable {
 
         try {
             //execute race:
-            Race.RaceCar winner = Race.RaceCalculator.calculateRace(clients);
+            Race.RaceCar winner = Race.RaceCalculator.calculateRace();
 
             //send winner to all clients
             if (winner != null) {

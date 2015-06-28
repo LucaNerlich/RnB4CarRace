@@ -36,36 +36,41 @@ public class RaceProtocol {
     public String processInput(Socket client, String theInput, PrintWriter pw, ArrayList<RaceCar> cars) {
         String theOutput = null;
 
-        //TODO ueberarbeiten, per Handler loesen
-
         StringBuilder sb = new StringBuilder();
         // theOutput = stringsplit by -
         String[] inputParts = theInput.split("-");
 
         if (theInput.length() > 0) {
-            if (inputParts[0].equals("/HELP")) {
-                theOutput = "Commands: '/HELP', '/INFO', '/EXIT'";
-            } else if (inputParts[0].equals("/INFO")) {
-                theOutput = "Server: Cars waiting for start: ";
-                for(RaceCar car : cars){
-                    theOutput = theOutput + ", " + car.getName();
-                }
-            } else if (inputParts[0].equals("/START")) {
-                theOutput = "Race will start in 3 Seconds";
-            } else if (inputParts[0].equals("/REGCARS")) {
-                for (int i = 1; i < inputParts.length; i++) {
-                    sb.append(inputParts[i]);
+            switch (inputParts[0]) {
+                case "/HELP":
+                    theOutput = "Commands: '/HELP', '/INFO', '/EXIT'";
+                    break;
+                case "/INFO":
+                    theOutput = "Server: Cars waiting for start: ";
+                    for (RaceCar car : cars) {
+                        theOutput = theOutput + ", " + car.getName();
+                    }
+                    break;
+                case "/START":
+                    theOutput = "Race will start in 3 Seconds";
+                    break;
+                case "/REGCARS":
+                    for (int i = 1; i < inputParts.length; i++) {
+                        sb.append(inputParts[i]);
 
-                    //add Car to Race
-                    RaceCalculator.addCar(client, inputParts[i], pw, cars);
-                    sb.append(", ");
-                }
-                carNames = sb.toString();
-                theOutput = "Server: Cars registered";
-            } else if (inputParts[0].equals("/EXIT")) {
-                theOutput = "/EXIT";
-            } else {
-                theOutput = theInput;
+                        //add Car to Race
+                        RaceCalculator.addCar(client, inputParts[i], pw, cars);
+                        sb.append(", ");
+                    }
+                    carNames = sb.toString();
+                    theOutput = "Server: Cars registered";
+                    break;
+                case "/EXIT":
+                    theOutput = "/EXIT";
+                    break;
+                default:
+                    theOutput = theInput;
+                    break;
             }
         }
         return theOutput;

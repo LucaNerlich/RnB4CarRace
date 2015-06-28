@@ -13,8 +13,8 @@ public class MessageHandler {
 
     public void sendMessageToClients(ArrayList<PrintWriter> clients, String message){
 
-        for (int i = 0; i < clients.size(); i++) {
-            out = clients.get(i);
+        for (PrintWriter client : clients) {
+            out = client;
             out.println(message);
             System.out.println(message);
         }
