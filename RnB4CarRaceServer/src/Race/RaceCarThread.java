@@ -21,7 +21,7 @@ public class RaceCarThread implements Runnable {
             int time = (int) (Math.random() * 5) + 1;
             messageHandler.sendMessageToSingleClient(raceCar.getPw(), raceCar.getName() + " : Runde " + i + ": " + time + " in seconds.");
             try {
-                Thread.sleep(time * 250);
+                Thread.sleep(time * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
